@@ -15,7 +15,7 @@ export interface IUser extends Document {
 export interface IPosition extends Document {
     created: Date;
     builder: String;
-    saldo: Decimal128;
+    balance: Decimal128;
     message: string;
     lastPayDate: Date;
     lastPay: Decimal128;
@@ -23,7 +23,7 @@ export interface IPosition extends Document {
     dateLastMonth: Date;
     apartment: string;
     image: string;
-    usuario: string;
+    user: string;
     
 }
 

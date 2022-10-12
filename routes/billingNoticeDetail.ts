@@ -6,10 +6,14 @@ import FileSystem from '../classes/file-system';
 const billingNoticeDetailRoutes = Router();
 const fileSystem = new FileSystem();
 
+
+
 //obtener position paginados
+
+
 billingNoticeDetailRoutes.get('/', async (req: any, res: Response) =>{
 
-
+    console.log("paso by page");
     let pagina = Number(req.query.pagina) || 1;
     if ( pagina === 0) pagina = 1;
     let skip = pagina - 1;
@@ -52,5 +56,27 @@ billingNoticeDetailRoutes.post('/', [verificaToken], (req: any, res: Response) =
     });
 
 });
+
+billingNoticeDetailRoutes.get('/notice/:billId',async(req:any, res:Response) =>{
+
+    const NoticeDetailId = req.params.billId;
+    console.log("paso by billId",NoticeDetailId);
+    const billingNoticeDetail = await BillingNoticeDetail
+    .find({billingNotice : NoticeDetailId});
+    if (billingNoticeDetail) {
+        res.json({
+            ok: true,
+            billingNoticeDetail
+        });
+
+
+    } else {
+        res.status(400).json({
+            msg: `No existe el usuario con el id ${NoticeDetailId}`
+        });
+    }
+});
+
+
 
 export default billingNoticeDetailRoutes;

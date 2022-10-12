@@ -11,6 +11,7 @@ const billingNoticeDetailRoutes = (0, express_1.Router)();
 const fileSystem = new file_system_1.default();
 //obtener position paginados
 billingNoticeDetailRoutes.get('/', async (req, res) => {
+    console.log("paso by page");
     let pagina = Number(req.query.pagina) || 1;
     if (pagina === 0)
         pagina = 1;
@@ -45,5 +46,22 @@ billingNoticeDetailRoutes.post('/', [autenticacion_1.verificaToken], (req, res) 
     }).catch(err => {
         res.json(err);
     });
+});
+billingNoticeDetailRoutes.get('/notice/:billId', async (req, res) => {
+    const NoticeDetailId = req.params.billId;
+    console.log("paso by billId", NoticeDetailId);
+    const billingNoticeDetail = await billingNoticeDetail_1.BillingNoticeDetail
+        .find({ billingNotice: NoticeDetailId });
+    if (billingNoticeDetail) {
+        res.json({
+            ok: true,
+            billingNoticeDetail
+        });
+    }
+    else {
+        res.status(400).json({
+            msg: `No existe el usuario con el id ${NoticeDetailId}`
+        });
+    }
 });
 exports.default = billingNoticeDetailRoutes;

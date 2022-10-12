@@ -10,6 +10,7 @@ import paysRoutes from './routes/pays';
 import builderRoutes from './routes/builder';
 import billingNoticeRoutes from './routes/billingNotice';
 import billingNoticeDetailRoutes from './routes/billingNoticeDetail';
+
 import cors from 'cors';
 
 const server =  new Server();
@@ -33,6 +34,7 @@ server.app.use('/apartment', apartmentRoutes)
 server.app.use('/pays', paysRoutes)
 server.app.use('/billingNotice', billingNoticeRoutes)
 server.app.use('/billingNoticeDetail', billingNoticeDetailRoutes)
+
 
 //conectar bd
 // mongoose.connect('mongodb://localhost:27017/condominios', 

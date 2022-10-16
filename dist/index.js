@@ -15,8 +15,12 @@ const pays_1 = __importDefault(require("./routes/pays"));
 const builder_1 = __importDefault(require("./routes/builder"));
 const billingNotice_1 = __importDefault(require("./routes/billingNotice"));
 const billingNoticeDetail_1 = __importDefault(require("./routes/billingNoticeDetail"));
+const environment_1 = require("./environments/environment");
 const cors_1 = __importDefault(require("cors"));
 const server = new server_1.default();
+let baseUrl = environment_1.environment.baseUrl;
+let MONGODB_URI = environment_1.environment.MONGODB_URI;
+let prod = environment_1.environment.production;
 //bodyParser
 server.app.use(body_parser_1.default.urlencoded({ extended: true }));
 server.app.use(body_parser_1.default.json());
@@ -40,11 +44,22 @@ server.app.use('/billingNoticeDetail', billingNoticeDetail_1.default);
 //     console.log('Base de datos ONLINE');
 // });
 //conectar bd
-mongoose_1.default.connect('mongodb://localhost:27017/condominios', (err) => {
-    if (err)
-        throw err;
-    console.log('Base de datos ONLINE');
-});
+if (!prod) {
+    mongoose_1.default.connect(baseUrl, (err) => {
+        if (err)
+            throw err;
+        console.log('Base de datos Local ONLINE');
+    });
+}
+else {
+    console.log('tratando de conectar..');
+    console.log(MONGODB_URI);
+    mongoose_1.default.connect(MONGODB_URI, (err) => {
+        if (err)
+            throw err;
+        console.log('Base de datos MongoAtlas ONLINE');
+    });
+}
 //levantar express
 server.start(() => {
     console.log(`Servidor corriendo en puerto:${server.port}`);

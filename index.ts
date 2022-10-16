@@ -10,10 +10,16 @@ import paysRoutes from './routes/pays';
 import builderRoutes from './routes/builder';
 import billingNoticeRoutes from './routes/billingNotice';
 import billingNoticeDetailRoutes from './routes/billingNoticeDetail';
+import { environment } from './environments/environment';
+
 
 import cors from 'cors';
 
 const server =  new Server();
+
+let baseUrl = environment.baseUrl;
+let MONGODB_URI = environment.MONGODB_URI;
+let prod= environment.production;
 
 //bodyParser
 server.app.use(bodyParser.urlencoded({extended: true}));
@@ -36,6 +42,7 @@ server.app.use('/billingNotice', billingNoticeRoutes)
 server.app.use('/billingNoticeDetail', billingNoticeDetailRoutes)
 
 
+    
 //conectar bd
 // mongoose.connect('mongodb://localhost:27017/condominios', 
 //                 { useNewUrlParser: true, useCreateIndex: true }, ( err ) => {
@@ -44,10 +51,25 @@ server.app.use('/billingNoticeDetail', billingNoticeDetailRoutes)
 // });
 
 //conectar bd
-mongoose.connect('mongodb://localhost:27017/condominios', ( err ) => {
-    if ( err ) throw err;
-    console.log('Base de datos ONLINE');
-});
+if (!prod)
+{
+    mongoose.connect(baseUrl, ( err ) => {
+        if ( err ) throw err;
+        console.log('Base de datos Local ONLINE');
+    });
+
+}
+else {
+    console.log('tratando de conectar..');
+    console.log(MONGODB_URI);
+    mongoose.connect(MONGODB_URI, ( err ) => {
+        if ( err ) throw err;
+        console.log('Base de datos MongoAtlas ONLINE');
+    });
+
+}
+
+
 
 
 //levantar express

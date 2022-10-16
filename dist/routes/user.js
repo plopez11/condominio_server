@@ -12,6 +12,7 @@ const userRoutes = (0, express_1.Router)();
 //login
 userRoutes.post('/login', (req, res) => {
     const body = req.body;
+    console.log(req);
     user_model_1.User.findOne({ email: body.email }, (err, userDB) => {
         if (err)
             throw err;

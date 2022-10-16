@@ -10,6 +10,7 @@ const userRoutes =  Router() ;
 //login
 userRoutes.post('/login', (req: Request, res: Response) => {
         const body= req.body;
+        console.log(req);
         User.findOne({email: body.email}, (err: any, userDB: { compararPassword: (arg0: any) => any; _id: any; name: any; email: any; avatar: any; }) =>{
             if ( err ) throw err;
 

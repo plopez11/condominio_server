@@ -18,9 +18,9 @@ const billingNoticeDetail_1 = __importDefault(require("./routes/billingNoticeDet
 const environment_1 = require("./environments/environment");
 const cors_1 = __importDefault(require("cors"));
 const server = new server_1.default();
-let baseUrl = environment_1.environment.baseUrl;
-let MONGODB_URI = environment_1.environment.MONGODB_URI;
-let prod = environment_1.environment.production;
+const baseUrl = environment_1.environment.baseUrl;
+const MONGODB_URI = environment_1.environment.MONGODB_URI;
+const prod = environment_1.environment.production;
 //bodyParser
 server.app.use(body_parser_1.default.urlencoded({ extended: true }));
 server.app.use(body_parser_1.default.json());

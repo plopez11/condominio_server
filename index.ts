@@ -17,9 +17,9 @@ import cors from 'cors';
 
 const server =  new Server();
 
-let baseUrl = environment.baseUrl;
-let MONGODB_URI = environment.MONGODB_URI;
-let prod= environment.production;
+const baseUrl = environment.baseUrl;
+const MONGODB_URI = environment.MONGODB_URI;
+const prod= environment.production;
 
 //bodyParser
 server.app.use(bodyParser.urlencoded({extended: true}));

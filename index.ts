@@ -19,7 +19,7 @@ const server =  new Server();
 
 const baseUrl = environment.baseUrl;
 const MONGODB_URI = environment.MONGODB_URI;
-const prod= environment.production;
+const prod= environment.PROD;
 
 //bodyParser
 server.app.use(bodyParser.urlencoded({extended: true}));

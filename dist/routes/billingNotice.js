@@ -4,9 +4,9 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 const express_1 = require("express");
-const autenticacion_1 = require("../middlewares/autenticacion");
-const billingNotice_1 = require("../models/billingNotice");
+// import { BillingNotice } from '../models/billingNotice';
 const file_system_1 = __importDefault(require("../classes/file-system"));
+const database_1 = require("../database");
 const billingNoticeRoutes = (0, express_1.Router)();
 const fileSystem = new file_system_1.default();
 //obtener position paginados
@@ -16,14 +16,15 @@ billingNoticeRoutes.get('/', async (req, res) => {
         pagina = 1;
     let skip = pagina - 1;
     skip = skip * 10;
-    const billingNotice = await billingNotice_1.BillingNotice.find()
-        .sort({ _id: -1 })
-        .skip(skip)
-        .limit(10)
-        .populate('builder')
-        .populate('apartment')
-        .populate('user', '-password')
-        .exec();
+    const billingNotice = await database_1.pool.query('SELECT * FROM public.tmccs_bill');
+    // const billingNotice = await BillingNotice.find()
+    //                         .sort({ _id: -1 })
+    //                         .skip(skip)
+    //                         .limit(10)
+    //                         .populate('builder')
+    //                         .populate('apartment')
+    //                         .populate('user', '-password')                          
+    //                         .exec(); 
     res.json({
         ok: true,
         pagina,
@@ -31,18 +32,18 @@ billingNoticeRoutes.get('/', async (req, res) => {
     });
 });
 //crear billingNotice
-billingNoticeRoutes.post('/', [autenticacion_1.verificaToken], (req, res) => {
-    const body = req.body;
-    body.user = req.user._id;
-    // const imagenes = fileSystem.imagenesDeTempHaciaPost(req.usuario._id);
-    // body.imgs = imagenes;    
-    billingNotice_1.BillingNotice.create(body).then(async (BillingNoticeDB) => {
-        res.json({
-            ok: true,
-            Post: BillingNoticeDB
-        });
-    }).catch(err => {
-        res.json(err);
-    });
-});
+// billingNoticeRoutes.post('/', [verificaToken], (req: any, res: Response) =>{
+//     const body = req.body;
+//     body.user = req.user._id;
+//     // const imagenes = fileSystem.imagenesDeTempHaciaPost(req.usuario._id);
+//     // body.imgs = imagenes;    
+//     BillingNotice.create(body).then( async BillingNoticeDB => {
+//         res.json({
+//             ok: true,
+//             Post: BillingNoticeDB
+//         });
+//     }).catch( err => {
+//         res.json(err);
+//     });
+// });
 exports.default = billingNoticeRoutes;

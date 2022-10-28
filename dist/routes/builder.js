@@ -4,9 +4,9 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 const express_1 = require("express");
-const autenticacion_1 = require("../middlewares/autenticacion");
-const builder_1 = require("../models/builder");
+// import { Builder } from '../models/builder';
 const file_system_1 = __importDefault(require("../classes/file-system"));
+const database_1 = require("../database");
 const builderRoutes = (0, express_1.Router)();
 const fileSystem = new file_system_1.default();
 //obtener builder paginados
@@ -16,27 +16,28 @@ builderRoutes.get('/', async (req, res) => {
         pagina = 1;
     let skip = pagina - 1;
     skip = skip * 10;
-    const builder = await builder_1.Builder.find()
-        .sort({ _id: -1 })
-        .skip(skip)
-        .limit(10)
-        .exec();
+    const building = await database_1.pool.query('SELECT * FROM public.tmccs_building');
+    // const builder = await Builder.find()
+    //                         .sort({ _id: -1 })
+    //                         .skip(skip)
+    //                         .limit(10)
+    //                         .exec(); 
     res.json({
         ok: true,
         pagina,
-        builder
+        building
     });
 });
 //crear buider
-builderRoutes.post('/', [autenticacion_1.verificaToken], (req, res) => {
-    const body = req.body;
-    builder_1.Builder.create(body).then(async (BuilderDB) => {
-        res.json({
-            ok: true,
-            Post: BuilderDB
-        });
-    }).catch(err => {
-        res.json(err);
-    });
-});
+// builderRoutes.post('/',[verificaToken],(req: any, res: Response) =>{
+//     const body = req.body;
+//     Builder.create(body).then( async BuilderDB => {
+//         res.json({
+//             ok: true,
+//             Post: BuilderDB
+//         });
+//     }).catch( err => {
+//         res.json(err);
+//     });
+// });
 exports.default = builderRoutes;

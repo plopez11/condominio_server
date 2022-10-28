@@ -1,28 +1,33 @@
 "use strict";
-Object.defineProperty(exports, "__esModule", { value: true });
-exports.Post = void 0;
-const mongoose_1 = require("mongoose");
-const postSchema = new mongoose_1.Schema({
-    created: {
-        type: Date
-    },
-    mensaje: {
-        type: String
-    },
-    imgs: [{
-            type: String,
-        }],
-    coords: {
-        type: String
-    },
-    usuario: {
-        type: mongoose_1.Schema.Types.ObjectId,
-        ref: 'Usuario',
-        required: [true, 'Debe existir una referencia a un usuario']
-    }
-});
-postSchema.pre('save', function (next) {
-    this.created = new Date();
-    next(null);
-});
-exports.Post = (0, mongoose_1.model)('Post', postSchema);
+// import { Schema, model, Document } from 'mongoose';
+// const postSchema = new Schema({
+//     created: {
+//         type: Date
+//     },
+//     mensaje: {
+//         type: String
+//     },
+//     imgs: [{
+//         type: String,
+//     }],
+//     coords: {
+//         type: String
+//     },
+//     usuario: {
+//         type: Schema.Types.ObjectId,
+//         ref: 'Usuario',
+//         required: [true, 'Debe existir una referencia a un usuario']
+//     }
+// });
+// postSchema.pre<IPost>('save', function( next ) {
+//     this.created = new Date();
+//     next(null);
+// });
+// interface IPost extends Document {
+//     created: Date;
+//     mensaje: string;
+//     img: string[];
+//     coords: string;
+//     usuario: string;
+// }
+// export const Post = model<IPost>('Post', postSchema);

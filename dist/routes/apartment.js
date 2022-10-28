@@ -4,9 +4,9 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 const express_1 = require("express");
-const autenticacion_1 = require("../middlewares/autenticacion");
-const apartment_1 = require("../models/apartment");
+// import { Apartment } from '../models/apartment';
 const file_system_1 = __importDefault(require("../classes/file-system"));
+const database_1 = require("../database");
 const apartmentRoutes = (0, express_1.Router)();
 const fileSystem = new file_system_1.default();
 //obtener position paginados
@@ -16,13 +16,15 @@ apartmentRoutes.get('/', async (req, res) => {
         pagina = 1;
     let skip = pagina - 1;
     skip = skip * 10;
-    const apartment = await apartment_1.Apartment.find()
-        .sort({ _id: -1 })
-        .skip(skip)
-        .limit(10)
-        .populate('builder')
-        .populate('user', '-password')
-        .exec();
+    const apartment = await database_1.pool.query('SELECT * FROM public.tmccs_apartments');
+    // const apartment = await Apartment.find()
+    //                         .sort({ _id: -1 })
+    //                         .skip(skip)
+    //                         .limit(10)
+    //                         .populate('builder')
+    //                         .populate('user', '-password')                          
+    //                         .exec(); 
+    console.log(apartment.rows);
     res.json({
         ok: true,
         pagina,
@@ -30,18 +32,18 @@ apartmentRoutes.get('/', async (req, res) => {
     });
 });
 //crear apartment
-apartmentRoutes.post('/', [autenticacion_1.verificaToken], (req, res) => {
-    const body = req.body;
-    body.user = req.user._id;
-    // const imagenes = fileSystem.imagenesDeTempHaciaPost(req.usuario._id);
-    // body.imgs = imagenes;    
-    apartment_1.Apartment.create(body).then(async (ApartmentDB) => {
-        res.json({
-            ok: true,
-            Post: ApartmentDB
-        });
-    }).catch(err => {
-        res.json(err);
-    });
-});
+// apartmentRoutes.post('/', [verificaToken], (req: any, res: Response) =>{
+//     const body = req.body;
+//     body.user = req.user._id;
+//     // const imagenes = fileSystem.imagenesDeTempHaciaPost(req.usuario._id);
+//     // body.imgs = imagenes;    
+//     Apartment.create(body).then( async ApartmentDB => {
+//         res.json({
+//             ok: true,
+//             Post: ApartmentDB
+//         });
+//     }).catch( err => {
+//         res.json(err);
+//     });
+// });
 exports.default = apartmentRoutes;

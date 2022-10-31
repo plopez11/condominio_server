@@ -41,6 +41,7 @@ server.app.use( cors({ origin: true, credentials: true}) );
 
 //Rutas de mi aplicacion
 server.app.use('/user', userRoutes)
+server.app.use('/user/create', userRoutes)
 server.app.use('/country', countryRoutes)
 server.app.use('/position', positionRoutes)
 server.app.use('/builder', builderRoutes)

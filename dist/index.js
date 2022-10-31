@@ -35,6 +35,7 @@ server.app.use((0, express_fileupload_1.default)());
 server.app.use((0, cors_1.default)({ origin: true, credentials: true }));
 //Rutas de mi aplicacion
 server.app.use('/user', user_1.default);
+server.app.use('/user/create', user_1.default);
 server.app.use('/country', country_1.default);
 server.app.use('/position', position_1.default);
 server.app.use('/builder', builder_1.default);

@@ -11,7 +11,6 @@ const fileSystem = new FileSystem();
 //obtener position paginados
 billingNoticeRoutes.get('/', async (req: any, res: Response) =>{
 
-
     let pagina = Number(req.query.pagina) || 1;
     if ( pagina === 0) pagina = 1;
     let skip = pagina - 1;

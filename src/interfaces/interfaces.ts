@@ -1,14 +1,14 @@
 // // import { Schema, model, Document, Decimal128 } from 'mongoose';
 
-// export interface IUser extends Document {
-//     name: string,
-//     avatar: string,
-//     email: string,
-//     password: string,
-//     role: string,
-//     created: Date,
-//     status: string,
-
+export interface IUser extends Document {
+    id: Number,
+    firstname: string,
+    lastname: string,
+    email: string,
+    password: string,
+    role_id: string,
+    status: string,
+}
 //     compararPassword(password:string): boolean;
 // }
 

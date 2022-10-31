@@ -1,13 +1,6 @@
 "use strict";
 // // import { Schema, model, Document, Decimal128 } from 'mongoose';
-// export interface IUser extends Document {
-//     name: string,
-//     avatar: string,
-//     email: string,
-//     password: string,
-//     role: string,
-//     created: Date,
-//     status: string,
+Object.defineProperty(exports, "__esModule", { value: true });
 //     compararPassword(password:string): boolean;
 // }
 // export interface IPosition extends Document {

@@ -2,6 +2,17 @@
 // import bcrypt from 'bcrypt';
 // import { IUser } from '../interfaces/interfaces';
 
+// export const User = <IUser>('User');
+
+// const User: IUser ={
+//     firstname: String,
+//     lastname: String,
+//     email: String,
+//     password: String,
+//     role_id: String,
+//     status: String,
+// }
+
 // // const userSchema = new Schema({
 
 // //     name: {

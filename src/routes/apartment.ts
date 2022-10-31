@@ -4,6 +4,7 @@ import { verificaToken } from '../middlewares/autenticacion';
 import FileSystem from '../classes/file-system';
 import {pool} from '../database';
 import {QueryResult} from 'pg';
+// import router from './country';
 
 const apartmentRoutes = Router();
 const fileSystem = new FileSystem();
@@ -18,13 +19,7 @@ apartmentRoutes.get('/', async (req: Request, res: Response) =>{
 
     const apartment: QueryResult = await pool.query('SELECT * FROM public.tmccs_apartments');
 
-    // const apartment = await Apartment.find()
-    //                         .sort({ _id: -1 })
-    //                         .skip(skip)
-    //                         .limit(10)
-    //                         .populate('builder')
-    //                         .populate('user', '-password')                          
-    //                         .exec(); 
+    
     console.log(apartment.rows);
     res.json({
         ok: true,
@@ -33,6 +28,14 @@ apartmentRoutes.get('/', async (req: Request, res: Response) =>{
     });
 
 });
+
+// const apartment = await Apartment.find()
+    //                         .sort({ _id: -1 })
+    //                         .skip(skip)
+    //                         .limit(10)
+    //                         .populate('builder')
+    //                         .populate('user', '-password')                          
+    //                         .exec(); 
 
 //crear apartment
 // apartmentRoutes.post('/', [verificaToken], (req: any, res: Response) =>{

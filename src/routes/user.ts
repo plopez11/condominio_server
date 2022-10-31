@@ -9,9 +9,9 @@ import {getUser, loginUser, createUser,getUsers, ModifUser, deleteUser } from '.
 const userRoutes =  Router() ;
 
 userRoutes.get('/',[verificaToken], getUsers);
-userRoutes.get('/:id', getUser);
+userRoutes.get('/:id',[verificaToken], getUser);
 userRoutes.post('/login', loginUser);
-userRoutes.post('/', createUser);
+userRoutes.post('/create', createUser);
 userRoutes.put('/:id',[verificaToken], ModifUser);
 userRoutes.delete('/:id',[verificaToken], deleteUser);
 

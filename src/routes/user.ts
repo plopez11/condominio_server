@@ -1,10 +1,7 @@
 import { Router } from 'express';
-// import { User } from '../models/user.model';
-// import bcrypt from 'bcrypt';
-
 import { verificaToken } from '../middlewares/autenticacion';
 import {getUser, loginUser, createUser,getUsers, ModifUser, deleteUser } from '../controllers/user'
-// import { now } from 'mongoose';
+
 
 const userRoutes =  Router() ;
 

@@ -17,11 +17,20 @@ const getUsers = async (req: Request, res: Response) => {
             
         const user: QueryResult = await pool.query('SELECT * FROM public.tmccs_user');
     
-        res.json({
-            ok: true,
-            pagina,
-            user
-        });
+        if (user.rowCount == 0) {
+            res.json( {
+                ok: false,
+                mensaje: 'Empty result ***'
+            });
+        }
+        else {
+
+            res.json({
+                ok: true,
+                pagina,
+                user
+            });
+        }
     } catch (e) {
         handleHttp(res,'ERROR_GET_USERS, ' + e);
     }
@@ -98,11 +107,20 @@ const getUser = async (req: Request, res: Response) => {
         const UserId = req.params.id;
                  
         const user: QueryResult = await pool.query('SELECT * FROM public.tmccs_user where id=$1',[UserId]);
+
+        if (user.rowCount == 0) {
+            res.json( {
+                ok: false,
+                mensaje: 'User does not exist ***'
+            });
+        } else {
+
+            res.json({
+                ok: true,
+                user
+            });
+        }
     
-        res.json({
-            ok: true,
-            user
-        });
     } catch (e) {
         handleHttp(res,'ERROR_GET_USER, ' + e);
     }
@@ -114,11 +132,12 @@ const deleteUser = async (req: Request, res: Response) => {
         const UserId = req.params.id;
                  
         const user: QueryResult = await pool.query('DELETE FROM public.tmccs_user where id=$1',[UserId]);
-    
-        res.json({
-            ok: true,
-            mensaje: 'Deleted User***'
-        });
+      
+            res.json({
+                ok: true,
+                mensaje: 'Deleted User***'
+            });
+        
     } catch (e) {
         handleHttp(res,'ERROR_DELETE_USER, ' + e);
     }
@@ -131,8 +150,8 @@ const ModifUser = async (req: Request, res: Response) => {
         const body= req.body;
         const epassword: String = bcrypt.hashSync(req.body.password, 10);
                 
-        const user: QueryResult = await pool.query('UPDATE public.tmccs_user SET uid=$1,firstname=$2,lastname=$3,email=$4,password=$5 WHERE id=$6',
-                [body.uid, body.firstname,body.lastname,body.email,epassword,UserId]);
+        const user: QueryResult = await pool.query('UPDATE public.tmccs_user SET uid=$1,firstname=$2,lastname=$3,email=$4,password=$5,status=$6 WHERE id=$7',
+                [body.uid, body.firstname,body.lastname,body.email,epassword,body.status,UserId]);
 
         if (user.rowCount == 1) {
             const tokenUSer = Token.getJwtToken({
@@ -193,79 +212,5 @@ const createUser = async (req: Request, res: Response) => {
     }
 }
         
-
-
-
 export {getUser, createUser,getUsers, ModifUser, deleteUser, loginUser };
 
-
-
-// Login
-// const loginUser= async (req: Request, res: Response) => {
-//         const body= req.body;
-//         console.log(req);
-//         User.findOne({email: body.email}, (err: any, userDB: { compararPassword: (arg0: any) => any; _id: any; name: any; email: any; avatar: any; }) =>{
-//             if ( err ) throw err;
-
-//             if ( !userDB ) {
-//                     return res.json( {
-//                         ok: false,
-//                         mensaje: 'Invalid user or password'
-//                     })
-//             }
-//             if (userDB.compararPassword(body.password)) {
-//                 const tokenUSer = Token.getJwtToken({
-//                     _id: userDB._id,
-//                     name: userDB.name,
-//                     email: userDB.email,
-//                     avatar: userDB.avatar
-//                 });
-//                 res.json({
-//                     ok: true,
-//                     token: tokenUSer
-//                 });
-//             } else {
-//                 return res.json( {
-//                     ok: false,
-//                     mensaje: 'Invalid user or password ***'
-//                 });
-//             }
-//         });
-// });
-
-
-
-// Update user
-
-// userRoutes.post('/update', verificaToken, (req: any, res: Response) => {
-
-//     const user = {
-//         name: req.body.name || req.name.name,
-//         email: req.body.email || req.user.email,
-//         avatar: req.body.avatar || req.user.avatar,
-//         role: req.body.role || req.user.role
-//     };
-
-//     User.findByIdAndUpdate( req.user._id, user, { new: true}, (err, userDB)=> {
-//         if ( err ) throw err;
-
-//         if ( !userDB ) {
-//             return res.json({
-//                 ok: false,
-//                 mensaje: 'There is no user with that ID***'
-//             });
-//         }
-
-//         const tokenUSer = Token.getJwtToken({
-//             _id: userDB._id,
-//             name: userDB.name,
-//             email: userDB.email,
-//             avatar: userDB.avatar
-//         });
-//         res.json({
-//             ok: true,
-//             token: tokenUSer
-//         });
-
-//     });
-// });

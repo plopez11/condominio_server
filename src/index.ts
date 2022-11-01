@@ -6,9 +6,9 @@ import userRoutes from './routes/user';
 import positionRoutes from './routes/position';
 import apartmentRoutes from './routes/apartment';
 import paysRoutes from './routes/pays';
-import builderRoutes from './routes/builder';
-import billingNoticeRoutes from './routes/billingNotice';
-import billingNoticeDetailRoutes from './routes/billingNoticeDetail';
+import buildingRoutes from './routes/building';
+import billRoutes from './routes/bill';
+import billDetailRoutes from './routes/billDetail';
 import countryRoutes from './routes/country';
 import { environment } from './environments/environment';
 
@@ -44,41 +44,11 @@ server.app.use('/user', userRoutes)
 server.app.use('/user/create', userRoutes)
 server.app.use('/country', countryRoutes)
 server.app.use('/position', positionRoutes)
-server.app.use('/builder', builderRoutes)
+server.app.use('/builder', buildingRoutes)
 server.app.use('/apartment', apartmentRoutes)
 server.app.use('/pays', paysRoutes)
-server.app.use('/billingNotice', billingNoticeRoutes)
-server.app.use('/billingNoticeDetail', billingNoticeDetailRoutes)
-
-
-    
-//conectar bd
-// mongoose.connect('mongodb://localhost:27017/condominios', 
-//                 { useNewUrlParser: true, useCreateIndex: true }, ( err ) => {
-//     if ( err ) throw err;
-//     console.log('Base de datos ONLINE');
-// });
-
-//conectar bd mongoDB
-// if (!prod)
-// {
-//     mongoose.connect(baseUrl, ( err ) => {
-//         if ( err ) throw err;
-//         console.log('Base de datos Local ONLINE');
-//     });
-
-// }
-// else {
-//     console.log('tratando de conectar..');
-//     console.log(MONGODB_URI);
-//     mongoose.connect(MONGODB_URI, ( err ) => {
-//         if ( err ) throw err;
-//         console.log('Base de datos MongoAtlas ONLINE');
-//     });
-
-// }
-
-
+server.app.use('/bill', billRoutes)
+server.app.use('/billDetail', billDetailRoutes)
 
 
 //levantar express
